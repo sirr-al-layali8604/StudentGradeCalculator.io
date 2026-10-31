@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SGC — Student Grade Calculator</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between p-4 md:p-8 lg:p-12 max-w-7xl mx-auto">
+
+    <div>
+        <!-- Top Navigation / Header Card -->
+        <header class="bg-white rounded-2xl border border-slate-200/80 p-6 md:p-8 mb-6 shadow-sm relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-2 h-full bg-blue-600"></div>
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <div class="flex items-center gap-3 mb-2 flex-wrap">
+                        <span class="text-xs font-bold tracking-wide uppercase px-2.5 py-1 rounded-md bg-blue-50 text-blue-600 border border-blue-100">
+                            PROJECT PROTOTYPE
+                        </span>
+                        <span class="text-xs font-semibold text-slate-500">
+                            T.Y.B.Sc. CS — Sem V
+                        </span>
+                    </div>
+                    <h1 class="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
+                        SGC — Student Grade Calculator
+                    </h1>
+                    <p class="text-sm font-medium text-slate-500 mt-1">
+                        Bhavna Trust Junior & Degree College of Commerce and Science, Mumbai
+                    </p>
+                </div>
+                <div class="text-left md:text-right border-t md:border-t-0 pt-3 md:pt-0 border-slate-100">
+                    <p class="text-xs text-slate-500 font-medium">Developer</p>
+                    <p class="text-sm font-bold text-blue-700">Sujal Guhagarkar</p>
+                    <p class="text-xs font-semibold text-slate-600 mt-0.5">Roll No: <span class="font-bold text-slate-800">22416</span></p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Grid -->
+        <main class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+            <!-- Left Column: Marks Entry Form -->
+            <section class="lg:col-span-7 bg-white rounded-2xl border border-slate-200/80 p-6 md:p-8 shadow-sm flex flex-col justify-between">
+                <div>
+                    <!-- Section Header -->
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center gap-2.5">
+                            <div class="p-2 rounded-lg bg-blue-50 text-blue-600">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                </svg>
+                            </div>
+                            <h2 class="text-lg font-bold text-slate-800">Marks Entry Form</h2>
+                        </div>
+                        <span class="text-xs font-semibold text-slate-500 bg-slate-100 px-3 py-1 rounded-full border border-slate-200">
+                            Max 100/Subject
+                        </span>
+                    </div>
+
+                    <!-- Dynamic Error Alert Box -->
+                    <div id="alertBox" class="hidden mb-6 p-4 rounded-xl border border-red-200 bg-red-50 text-red-700 flex items-start gap-3">
+                        <svg class="w-5 h-5 text-red-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <div>
+                            <h4 class="text-sm font-bold">Please check your inputs:</h4>
+                            <p id="alertMessage" class="text-xs font-medium text-red-600 mt-0.5">
+                                Student Name is required to compute performance.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Input Fields Form -->
+                    <form id="gradeForm" onsubmit="event.preventDefault(); calculateGrade();" class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <!-- Student Name Input -->
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5" for="studentName">
+                                    Student Name <span class="text-red-500">*</span>
+                                </label>
+                                <input type="text" id="studentName" placeholder="e.g. Aarav Sharma" 
+                                    class="w-full px-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all">
+                            </div>
+                            <!-- Roll Number Input -->
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5" for="rollNumber">
+                                    Roll Number <span class="text-slate-400 font-normal">(Optional)</span>
+                                </label>
+                                <input type="text" id="rollNumber" placeholder="e.g. 24" 
+                                    class="w-full px-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all">
+                            </div>
+                        </div>
+
+                        <!-- Marks Header -->
+                        <div class="pt-3 pb-1 flex items-center justify-between border-t border-slate-100">
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600">
+                                Subject Wise Marks (0 – 100) <span class="text-red-500">*</span>
+                            </label>
+                            <span class="text-xs font-medium text-slate-500">5 Subjects</span>
+                        </div>
+
+                        <!-- 5 Subject Marks Inputs -->
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-3">
+                                <span class="w-20 text-xs font-semibold text-slate-600 shrink-0">Subject 1</span>
+                                <input type="number" min="0" max="100" id="sub1" placeholder="Marks"
+                                    class="subject-input w-full px-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all">
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="w-20 text-xs font-semibold text-slate-600 shrink-0">Subject 2</span>
+                                <input type="number" min="0" max="100" id="sub2" placeholder="Marks"
+                                    class="subject-input w-full px-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all">
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="w-20 text-xs font-semibold text-slate-600 shrink-0">Subject 3</span>
+                                <input type="number" min="0" max="100" id="sub3" placeholder="Marks"
+                                    class="subject-input w-full px-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all">
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="w-20 text-xs font-semibold text-slate-600 shrink-0">Subject 4</span>
+                                <input type="number" min="0" max="100" id="sub4" placeholder="Marks"
+                                    class="subject-input w-full px-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all">
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="w-20 text-xs font-semibold text-slate-600 shrink-0">Subject 5</span>
+                                <input type="number" min="0" max="100" id="sub5" placeholder="Marks"
+                                    class="subject-input w-full px-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all">
+                            </div>
+                        </div>
+
+                        <!-- Form Action Buttons -->
+                        <div class="pt-4 flex items-center gap-3">
+                            <button type="submit" 
+                                class="flex-1 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-bold py-3 px-6 rounded-xl shadow-md shadow-blue-500/20 hover:shadow-lg transition-all flex items-center justify-center gap-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                </svg>
+                                <span>Calculate Grade</span>
+                            </button>
+                            <button type="button" onclick="resetForm()" 
+                                class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 px-5 rounded-xl border border-slate-200 transition-all flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                </svg>
+                                <span>Reset</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Right Column: Results & Policy Matrix -->
+            <div class="lg:col-span-5 flex flex-col gap-6">
+
+                <!-- Calculated Result Panel -->
+                <section class="bg-white rounded-2xl border border-slate-200/80 p-6 md:p-8 shadow-sm flex flex-col justify-between min-h-[300px]">
+                    <div class="flex items-center gap-2.5 pb-4 border-b border-slate-100">
+                        <div class="p-2 rounded-lg bg-blue-50 text-blue-600">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <h2 class="text-lg font-bold text-slate-800">Calculated Result</h2>
+                    </div>
+
+                    <!-- Default Empty State -->
+                    <div id="emptyResult" class="flex flex-col items-center justify-center text-center py-12 px-4 my-auto">
+                        <div class="w-16 h-20 border-2 border-slate-200 rounded-lg flex flex-col items-center justify-center mb-4 text-slate-300 relative">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-base font-bold text-slate-700">No Calculation Executed</h3>
+                        <p class="text-xs text-slate-400 mt-1 max-w-xs leading-relaxed">
+                            Fill out student details and marks to generate the official calculated result sheet.
+                        </p>
+                    </div>
+
+                    <!-- Active Result Sheet State -->
+                    <div id="activeResult" class="hidden my-auto py-2 space-y-4">
+                        <div class="bg-slate-50 rounded-xl p-4 border border-slate-100 flex items-center justify-between">
+                            <div>
+                                <p class="text-xs text-slate-400 font-semibold uppercase">Student Profile</p>
+                                <h3 id="resStudentName" class="text-lg font-bold text-slate-900">Aarav Sharma</h3>
+                                <p id="resRollNo" class="text-xs text-slate-500 font-medium">Roll No: 24</p>
+                            </div>
+                            <div id="statusBadge" class="px-3 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wider bg-green-100 text-green-700 border border-green-200">
+                                PASSED
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="bg-blue-50/50 border border-blue-100 rounded-xl p-3.5 text-center">
+                                <p class="text-xs text-slate-500 font-bold uppercase">Total Score</p>
+                                <p class="text-2xl font-black text-blue-700 mt-0.5"><span id="resTotal">435</span> <span class="text-xs text-slate-400 font-normal">/ 500</span></p>
+                            </div>
+                            <div class="bg-blue-50/50 border border-blue-100 rounded-xl p-3.5 text-center">
+                                <p class="text-xs text-slate-500 font-bold uppercase">Percentage</p>
+                                <p id="resPercentage" class="text-2xl font-black text-blue-700 mt-0.5">87.0%</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-white border border-slate-200 rounded-xl p-4 flex items-center justify-between">
+                            <div>
+                                <p class="text-xs text-slate-400 font-semibold uppercase">Performance Level</p>
+                                <p id="resPerformance" class="text-base font-bold text-slate-800">Excellent</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-xs text-slate-400 font-semibold uppercase">Grade</p>
+                                <p id="resGrade" class="text-3xl font-black text-blue-600">A</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Project Grading Policy Matrix -->
+                <section class="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xs font-bold text-slate-600 uppercase tracking-wider">
+                            Project Grading Policy Matrix
+                        </h3>
+                        <span class="text-xs text-slate-400 font-medium">(per presentation)</span>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs border-collapse">
+                            <thead>
+                                <tr class="border-b border-slate-200 text-slate-500 font-bold">
+                                    <th class="py-2.5 px-1 uppercase tracking-wider">Percentage</th>
+                                    <th class="py-2.5 px-1 uppercase tracking-wider">Grade</th>
+                                    <th class="py-2.5 px-1 uppercase tracking-wider">Performance Level</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 font-medium">
+                                <tr>
+                                    <td class="py-2 px-1 text-slate-700">90% – 100%</td>
+                                    <td class="py-2 px-1 font-bold text-emerald-600">A+</td>
+                                    <td class="py-2 px-1 text-slate-600">Outstanding</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 px-1 text-slate-700">80% – 89%</td>
+                                    <td class="py-2 px-1 font-bold text-blue-600">A</td>
+                                    <td class="py-2 px-1 text-slate-600">Excellent</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 px-1 text-slate-700">70% – 79%</td>
+                                    <td class="py-2 px-1 font-bold text-indigo-600">B</td>
+                                    <td class="py-2 px-1 text-slate-600">Good</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 px-1 text-slate-700">60% – 69%</td>
+                                    <td class="py-2 px-1 font-bold text-amber-600">C</td>
+                                    <td class="py-2 px-1 text-slate-600">Average</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 px-1 text-slate-700">50% – 59%</td>
+                                    <td class="py-2 px-1 font-bold text-orange-600">D</td>
+                                    <td class="py-2 px-1 text-slate-600">Below Average</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 px-1 text-slate-700">Below 50%</td>
+                                    <td class="py-2 px-1 font-bold text-red-600">F</td>
+                                    <td class="py-2 px-1 text-slate-600">Needs Improvement</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-8 text-center border-t border-slate-200/80 pt-6">
+        <p class="text-xs text-slate-500 font-medium">
+            Student Grade Calculator (SGC) — Final Year Project Report Submission (2026–2027)
+        </p>
+    </footer>
+
+    <!-- Logic Script -->
+    <script>
+        function calculateGrade() {
+            const nameInput = document.getElementById('studentName');
+            const rollInput = document.getElementById('rollNumber');
+            const alertBox = document.getElementById('alertBox');
+            const alertMsg = document.getElementById('alertMessage');
+            
+            const subIds = ['sub1', 'sub2', 'sub3', 'sub4', 'sub5'];
+            let isValid = true;
+            let errorMessage = '';
+
+            // Clear input styles
+            nameInput.classList.remove('border-red-500', 'bg-red-50/30');
+            subIds.forEach(id => {
+                const el = document.getElementById(id);
+                el.classList.remove('border-red-500', 'bg-red-50/30');
+            });
+
+            // Validate Name
+            const nameVal = nameInput.value.trim();
+            if (!nameVal) {
+                isValid = false;
+                errorMessage = 'Student Name is required to compute performance.';
+                nameInput.classList.add('border-red-500', 'bg-red-50/30');
+            }
+
+            // Validate Marks
+            let totalMarks = 0;
+            let marksCount = 0;
+            let invalidMarkFound = false;
+
+            subIds.forEach(id => {
+                const input = document.getElementById(id);
+                const val = input.value.trim();
+                
+                if (val === '') {
+                    invalidMarkFound = true;
+                    input.classList.add('border-red-500', 'bg-red-50/30');
+                } else {
+                    const num = parseFloat(val);
+                    if (isNaN(num) || num < 0 || num > 100) {
+                        invalidMarkFound = true;
+                        input.classList.add('border-red-500', 'bg-red-50/30');
+                    } else {
+                        totalMarks += num;
+                        marksCount++;
+                    }
+                }
+            });
+
+            if (invalidMarkFound) {
+                if (isValid) {
+                    errorMessage = 'Please enter valid marks between 0 and 100 for all 5 subjects.';
+                } else {
+                    errorMessage = 'Student Name and all 5 subject marks (0-100) are required.';
+                }
+                isValid = false;
+            }
+
+            // Show alert if invalid
+            if (!isValid) {
+                alertMsg.innerText = errorMessage;
+                alertBox.classList.remove('hidden');
+                return;
+            }
+
+            // Hide Alert
+            alertBox.classList.add('hidden');
+
+            // Compute Percentage & Grade Policy
+            const percentage = (totalMarks / 500) * 100;
+            let grade = 'F';
+            let performance = 'Needs Improvement';
+            let isPassed = percentage >= 50;
+
+            if (percentage >= 90) {
+                grade = 'A+';
+                performance = 'Outstanding';
+            } else if (percentage >= 80) {
+                grade = 'A';
+                performance = 'Excellent';
+            } else if (percentage >= 70) {
+                grade = 'B';
+                performance = 'Good';
+            } else if (percentage >= 60) {
+                grade = 'C';
+                performance = 'Average';
+            } else if (percentage >= 50) {
+                grade = 'D';
+                performance = 'Below Average';
+            }
+
+            // Render Output
+            document.getElementById('resStudentName').innerText = nameVal;
+            document.getElementById('resRollNo').innerText = rollInput.value.trim() ? `Roll No: ${rollInput.value.trim()}` : 'Roll No: N/A';
+            document.getElementById('resTotal').innerText = totalMarks;
+            document.getElementById('resPercentage').innerText = `${percentage.toFixed(1)}%`;
+            document.getElementById('resGrade').innerText = grade;
+            document.getElementById('resPerformance').innerText = performance;
+
+            const badge = document.getElementById('statusBadge');
+            if (isPassed) {
+                badge.innerText = 'PASSED';
+                badge.className = 'px-3 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wider bg-emerald-100 text-emerald-700 border border-emerald-200';
+            } else {
+                badge.innerText = 'FAILED';
+                badge.className = 'px-3 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wider bg-red-100 text-red-700 border border-red-200';
+            }
+
+            // Switch Display State
+            document.getElementById('emptyResult').classList.add('hidden');
+            document.getElementById('activeResult').classList.remove('hidden');
+        }
+
+        function resetForm() {
+            document.getElementById('gradeForm').reset();
+            document.getElementById('alertBox').classList.add('hidden');
+            
+            // Clear errors
+            document.getElementById('studentName').classList.remove('border-red-500', 'bg-red-50/30');
+            ['sub1', 'sub2', 'sub3', 'sub4', 'sub5'].forEach(id => {
+                document.getElementById(id).classList.remove('border-red-500', 'bg-red-50/30');
+            });
+
+            // Revert Result Area
+            document.getElementById('emptyResult').classList.remove('hidden');
+            document.getElementById('activeResult').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
